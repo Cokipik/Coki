@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pik Room</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;600&display=swap" rel="stylesheet">
+
+<style>
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  font-family:'Poppins',sans-serif;
+}
+
+body{
+  min-height:100vh;
+  background:linear-gradient(to bottom,#000000,#1a1a00,#ffd000);
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  color:white;
+  padding:20px;
+  overflow:hidden;
+}
+
+/* LOADING */
+#loader{
+  position:fixed;
+  width:100%;
+  height:100%;
+  background:black;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+  z-index:9999;
+}
+
+.bar{
+  width:200px;
+  height:5px;
+  background:#333;
+  margin-top:10px;
+  border-radius:10px;
+  overflow:hidden;
+}
+
+.progress{
+  height:100%;
+  width:0%;
+  background:yellow;
+}
+
+/* PARTICLES */
+canvas{
+  position:fixed;
+  top:0;
+  left:0;
+  z-index:0;
+}
+
+/* CONTAINER */
+.container{
+  width:100%;
+  max-width:420px;
+  text-align:center;
+  z-index:2;
+  backdrop-filter:blur(6px);
+}
+
+/* TITLE */
+h1{
+  margin-bottom:10px;
+  font-size:clamp(22px,5vw,28px);
+}
+
+p{
+  font-size:clamp(13px,3.5vw,15px);
+  margin-bottom:15px;
+}
+
+/* BANNER */
+.banner img{
+  width:100%;
+  height:110px;
+  border-radius:15px;
+  object-fit:cover;
+  margin-bottom:15px;
+}
+
+/* BUTTON */
+.btn{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:10px;
+  padding:14px;
+  margin:10px 0;
+  border-radius:30px;
+  text-decoration:none;
+  color:white;
+  font-weight:600;
+  position:relative;
+  overflow:hidden;
+  transition:0.2s;
+}
+
+.btn:active{
+  transform:scale(0.97);
+}
+
+.youtube{
+  background:#cc0000;
+}
+
+.tiktok{
+  background:#111;
+  border:1px solid white;
+}
+
+.instagram{
+  background:linear-gradient(45deg,#feda75,#d62976,#4f5bd5);
+}
+
+.icon{
+  width:22px;
+}
+
+/* RIPPLE */
+.ripple{
+  position:absolute;
+  width:10px;
+  height:10px;
+  border-radius:50%;
+  background:rgba(255,255,0,0.5);
+  transform:translate(-50%,-50%) scale(0);
+  animation:rippleEffect 0.6s linear;
+}
+
+@keyframes rippleEffect{
+  to{
+    transform:translate(-50%,-50%) scale(6);
+    opacity:0;
+  }
+}
+
+/* BUBBLE */
+.bubble-btn{
+  margin-top:15px;
+  padding:12px;
+  border:none;
+  border-radius:20px;
+  width:100%;
+  cursor:pointer;
+}
+
+.bubble{
+  max-height:0;
+  overflow:hidden;
+  transition:0.4s;
+  background:white;
+  color:black;
+  border-radius:10px;
+}
+
+.bubble.show{
+  max-height:200px;
+  padding:10px;
+}
+
+/* MUSIC */
+.music-box{
+  position:fixed;
+  bottom:20px;
+  right:20px;
+
+  display:none;
+
+  flex-direction:column;
+  align-items:center;
+
+  z-index:1000;
+}
+
+.music-text{
+  background:rgba(255,255,255,0.15);
+  backdrop-filter:blur(5px);
+
+  color:white;
+
+  font-size:11px;
+
+  padding:6px 10px;
+
+  border-radius:20px;
+
+  margin-bottom:8px;
+}
+
+.music-btn{
+  width:50px;
+  height:50px;
+
+  border:none;
+  border-radius:50%;
+
+  background:white;
+
+  color:black;
+
+  font-size:22px;
+
+  cursor:pointer;
+
+  box-shadow:0 0 10px rgba(255,255,255,0.4);
+}
+
+.music-btn:active{
+  transform:scale(0.95);
+}
+</style>
+</head>
+
+<body>
+
+<!-- LOADING -->
+<div id="loader">
+  Loading cuyy...
+  <div class="bar">
+    <div class="progress" id="prog"></div>
+  </div>
+</div>
+
+<!-- PARTICLES -->
+<canvas id="bg"></canvas>
+
+<!-- CONTENT -->
+<div class="container">
+
+<h1>pik room</h1>
+
+<p id="randomText"></p>
+
+<div class="banner">
+  <img src="https://raw.githubusercontent.com/Cokipik/Coki/main/CokiBanner.png">
+</div>
+
+<a href="https://youtube.com/@cokipik?si=jMLCrGdUAFdmbidC" class="btn youtube">
+  <img src="https://cdn-icons-png.flaticon.com/512/1384/1384060.png" class="icon">
+  YouTube
+</a>
+
+<a href="https://www.tiktok.com/@cokipik?_r=1&_t=ZS-961XAwhSev3" class="btn tiktok">
+  <img src="https://cdn-icons-png.flaticon.com/512/3046/3046121.png" class="icon">
+  TikTok
+</a>
+
+<a href="https://www.instagram.com/cokipik?igsh=MWt0djJ1bzRqcnRqag==" class="btn instagram">
+  <img src="https://cdn-icons-png.flaticon.com/512/2111/2111463.png" class="icon">
+  Instagram
+</a>
+
+<button class="bubble-btn" onclick="toggleBubble()">
+  Klik gua
+</button>
+
+<div class="bubble" id="bubble">
+  halo cuyy, gw cokipik. Kamu mau tau tentang gw?, umm gw suka game sama gambar. Intinya lu suka yang asik nah gw juga wkwk
+</div>
+
+</div>
+
+<!-- MUSIC -->
+<div class="music-box" id="musicBox">
+
+  <div class="music-text">
+    klik untuk music
+  </div>
+
+  <button class="music-btn" onclick="toggleMusic()">
+    🎵
+  </button>
+
+  <audio id="music" loop>
+    <source src="https://raw.githubusercontent.com/Cokipik/Coki/main/2112%20-%20Reality%20Club%20(Official%20Lyric%20Video).mp3">
+  </audio>
+
+</div>
+
+<script>
+// LOADING
+let p = 0;
+
+let prog = setInterval(()=>{
+
+  p += 4;
+
+  document.getElementById("prog").style.width = p + "%";
+
+  if(p >= 100){
+
+    clearInterval(prog);
+
+    document.getElementById("loader").style.display = "none";
+
+    // munculin tombol music setelah loading
+    document.getElementById("musicBox").style.display = "flex";
+  }
+
+},80);
+
+
+// RANDOM TEXT
+const texts = [
+  "yo cuyy, mau cari apa?",
+  "welcome ke Base gw",
+  "di klik boleh kaliii. wkwk"
+];
+
+document.getElementById("randomText").innerText =
+texts[Math.floor(Math.random()*texts.length)];
+
+
+// BUBBLE
+function toggleBubble(){
+  document.getElementById("bubble").classList.toggle("show");
+}
+
+
+// MUSIC
+const music = document.getElementById("music");
+
+function toggleMusic(){
+
+  if(music.paused){
+    music.play();
+  }else{
+    music.pause();
+  }
+
+}
+
+
+// PARTICLES
+const c = document.getElementById("bg");
+const ctx = c.getContext("2d");
+
+c.width = window.innerWidth;
+c.height = window.innerHeight;
+
+let stars = [];
+
+for(let i=0;i<60;i++){
+
+  stars.push({
+    x:Math.random()*c.width,
+    y:Math.random()*c.height,
+    r:Math.random()*1.5
+  });
+
+}
+
+function draw(){
+
+  ctx.clearRect(0,0,c.width,c.height);
+
+  ctx.fillStyle = "white";
+
+  stars.forEach(s=>{
+
+    ctx.beginPath();
+
+    ctx.arc(s.x,s.y,s.r,0,Math.PI*2);
+
+    ctx.fill();
+
+    s.y += 0.3;
+
+    if(s.y > c.height){
+      s.y = 0;
+    }
+
+  });
+
+  requestAnimationFrame(draw);
+}
+
+draw();
+
+
+// RIPPLE
+document.querySelectorAll(".btn").forEach(btn=>{
+
+  btn.addEventListener("click",function(e){
+
+    const circle = document.createElement("span");
+
+    circle.classList.add("ripple");
+
+    const rect = this.getBoundingClientRect();
+
+    circle.style.left = (e.clientX - rect.left) + "px";
+    circle.style.top = (e.clientY - rect.top) + "px";
+
+    this.appendChild(circle);
+
+    setTimeout(()=>{
+      circle.remove();
+    },600);
+
+  });
+
+});
+</script>
+
+</body>
+</html>
